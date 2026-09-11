@@ -1,5 +1,6 @@
 package com.example.application.port.in;
 
+import com.example.application.command.CreateTaskCommand;
 import com.example.domain.model.Task;
 
 /**
@@ -14,5 +15,6 @@ import com.example.domain.model.Task;
 public interface CreateTaskUseCase {
 
     Task create(Task task);
+//    Task create(CreateTaskCommand task);
 
 }

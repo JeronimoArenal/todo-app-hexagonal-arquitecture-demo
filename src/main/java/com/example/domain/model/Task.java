@@ -28,6 +28,18 @@ public class Task {
 //        this.createdAt = LocalDateTime.now();
 //    }
 
+    //............................... create ................................
+    public static Task create(String title, String description) {
+        Task task = Task.builder()
+                .title(title)
+                .description(description)
+                .build();
+
+        task.initDefaults();
+
+        return task;
+    }
+
     //............................... complete ................................
     public void complete(){
         if(this.status == TaskStatus.COMPLETED){

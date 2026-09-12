@@ -39,12 +39,16 @@ public class TaskEntity {
     @Column(name = "completed_at")
     private LocalDateTime completedAt;
 
-
-    @PrePersist
-    public void prePersist() {
-        this.createdAt = LocalDateTime.now();
-
-        if(this.status == null)
-            this.status = TaskStatus.PENDING;
-    }
+/**
+ * La infraestructura no debe establecer reglas de negocio.
+ * Si decidimos cambiar PENDING por WAITING solo se debe cambiar en el dominio Task.create
+ * y no acerlo tambien aqui.
+ */
+//    @PrePersist
+//    public void prePersist() {
+//        this.createdAt = LocalDateTime.now();
+//
+//        if(this.status == null)
+//            this.status = TaskStatus.PENDING;
+//    }
 }

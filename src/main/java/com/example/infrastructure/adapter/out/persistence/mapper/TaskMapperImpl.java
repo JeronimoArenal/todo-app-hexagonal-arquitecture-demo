@@ -19,14 +19,14 @@ public class TaskMapperImpl implements TaskMapper {
             return null;
         }
 
-        return Task.builder()
-                .id(entity.getId())
-                .title(entity.getTitle())
-                .description(entity.getDescription())
-                .status(entity.getStatus())
-                .createdAt(entity.getCreatedAt())
-                .completedAt(entity.getCompletedAt())
-                .build();
+        return Task.reconstitute(
+                entity.getId(),
+                entity.getTitle(),
+                entity.getDescription(),
+                entity.getStatus(),
+                entity.getCreatedAt(),
+                entity.getCompletedAt()
+        );
     }
 
     @Override
@@ -38,14 +38,13 @@ public class TaskMapperImpl implements TaskMapper {
 
         TaskEntity entity = new TaskEntity();
 
-        entity.setId(task.getId());
-        entity.setTitle(task.getTitle());
-        entity.setDescription(task.getDescription());
-        entity.setStatus(task.getStatus());
-        entity.setCreatedAt(task.getCreatedAt());
-        entity.setCompletedAt(task.getCompletedAt());
+        entity.setId(task.id());
+        entity.setTitle(task.title());
+        entity.setDescription(task.description());
+        entity.setStatus(task.status());
+        entity.setCreatedAt(task.createdAt());
+        entity.setCompletedAt(task.completedAt());
 
         return entity;
     }
-
 }

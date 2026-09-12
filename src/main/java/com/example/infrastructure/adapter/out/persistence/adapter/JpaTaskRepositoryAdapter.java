@@ -7,6 +7,9 @@ import com.example.infrastructure.adapter.out.persistence.entity.TaskEntity;
 import com.example.infrastructure.adapter.out.persistence.repository.TaskJpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Optional;
+
 /**
  * Implementación del puerto de salida {@link TaskRepositoryPort} definido por la capa de aplicación
  * y encargada de adaptar las operaciones de persistencia del dominio a la tecnología utilizada
@@ -18,16 +21,18 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class JpaTaskRepositoryAdapter implements TaskRepositoryPort {
 
-    private final TaskJpaRepository repository;
-    private final TaskMapper mapper;
+    private final TaskJpaRepository taskJpaRepository;
+    private final TaskMapper taskMapper;
+
 
     //......................... Constructor ...................................
-
-    public JpaTaskRepositoryAdapter(TaskJpaRepository repository, TaskMapper mapper) {
-        this.repository = repository;
-        this.mapper = mapper;
+    public JpaTaskRepositoryAdapter(TaskJpaRepository taskJpaRepository, TaskMapper taskMapper) {
+        this.taskJpaRepository = taskJpaRepository;
+        this.taskMapper = taskMapper;
     }
 
+
+    //......................... save ...................................
 //    @Override
 //    public Task save(Task task) {
 //        task.initDefaults();
@@ -41,15 +46,31 @@ public class JpaTaskRepositoryAdapter implements TaskRepositoryPort {
     public Task save(Task task) {
 
         // 1. Convertimos el objeto de dominio en una entidad JPA
-        TaskEntity taskEntity = mapper.toEntity(task);
+        TaskEntity taskEntity = taskMapper.toEntity(task);
 
         // 2. Delegamos la persistencia en el repositorio JPA
-        TaskEntity savedEntity = repository.save(taskEntity);
+        TaskEntity savedEntity = taskJpaRepository.save(taskEntity);
 
         // 3. Convertimos la entidad persistida de nuevo al modelo de dominio
-        Task savedDomain = mapper.toDomain(savedEntity);
+        Task savedDomain = taskMapper.toDomain(savedEntity);
 
         // 4. Devolvemos el objeto de dominio
         return savedDomain;
+    }
+
+    //......................... findById ...................................
+    @Override
+    public Optional<Task> findById(Long id) {
+        return taskJpaRepository.findById(id)
+                .map(taskMapper::toDomain);
+    }
+
+    //......................... findAll ...................................
+    @Override
+     public List<Task> findAll() {
+        return taskJpaRepository.findAll()
+                .stream()
+                .map(taskMapper::toDomain)
+                .toList();
     }
 }

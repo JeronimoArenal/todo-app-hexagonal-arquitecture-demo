@@ -14,7 +14,6 @@ import com.example.domain.model.Task;
  */
 public interface CreateTaskUseCase {
 
-    Task create(Task task);
-//    Task create(CreateTaskCommand task);
+    Task create(CreateTaskCommand command);
 
 }

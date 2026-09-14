@@ -27,8 +27,7 @@ public class TaskController {
 
     //............................... create ................................
     @PostMapping
-    public ResponseEntity<TaskResponse> create(
-            @Valid @RequestBody CreateTaskRequest request) {
+    public ResponseEntity<TaskResponse> create(@Valid @RequestBody CreateTaskRequest request) {
 
         CreateTaskCommand command = new CreateTaskCommand(
                 request.getTitle(),
